@@ -522,19 +522,19 @@
                     const scapedName = crs.name.replace(/[^0-9a-zA-Z]+/g, '-');
                     linkedCode = `<a href="https://epsg.org/crs_${crs.code}/${scapedName}.html">${code}</a>`;
                 }
-                row.insertCell().innerHTML = linkedCode;
-                row.insertCell().innerHTML = crs.name;
+                row.insertCell().insertAdjacentHTML('afterbegin', linkedCode);
+                row.insertCell().insertAdjacentHTML('afterbegin', crs.name);
                 let area = row.insertCell();
-                area.innerHTML = `<label><input type="checkbox"> ${crs.area_of_use[4]}</label>`;
+                area.insertAdjacentHTML('afterbegin', `<label><input type="checkbox"> ${crs.area_of_use[4]}</label>`);
                 area.querySelector(`input`).addEventListener('click', function (ev) {clickArea(ev, code, crs.area_of_use)});
                 area.title = crs.area_of_use[4];
                 area.classList.add('area');
                 area.addEventListener('mouseenter', ev => mouseOnArea(ev, code, crs.area_of_use, true));
                 area.addEventListener('mouseleave', ev => mouseOnArea(ev, code, crs.area_of_use, false));
-                row.insertCell().innerHTML = tabmap[crs.type];
+                row.insertCell().insertAdjacentHTML('afterbegin', tabmap[crs.type]);
                 let wkts = row.insertCell();
                 fillWktsField(wkts, crs);
-                row.insertCell().innerHTML = crs.deprecated;
+                row.insertCell().insertAdjacentHTML('afterbegin', crs.deprecated);
             });
         }
 
