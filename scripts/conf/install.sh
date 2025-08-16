@@ -8,6 +8,8 @@ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 PACKAGE_LIST=/home/apt-packages.txt
 if [ -f "$PACKAGE_LIST" ]; then
     apt-get update -qq > /dev/null
+    apt-get -qq --yes install software-properties-common
+    add-apt-repository -y ppa:deadsnakes/ppa  # for different python versions
 
     apt-get \
         -qq --yes \

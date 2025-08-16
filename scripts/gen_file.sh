@@ -11,11 +11,15 @@ test "$(ls -A $DIRNAME/dist/)" && rm -r $DIRNAME/dist/*
 # extract PROJ version from Dockerfile
 PROJ_VERSION=`cat $DIRNAME/Dockerfile | sed -n 's/^FROM .*:\(.*\)$/\1/p'`
 echo "PROJ_VERSION=$PROJ_VERSION"
-PYPROJ_VERSION=3.7.1
+
+# extract PYPROJ version from requirements.txt
+PYPROJ_VERSION=`cat $DIRNAME/requirements.txt | sed -n 's/^pyproj==\(.*\)$/\1/p'`
+echo "PYPROJ_VERSION=$PYPROJ_VERSION"
+
 DOCKER_TAG="crs-explorer:$PROJ_VERSION"
 
 # build container
-docker build --pull --build-arg PYPROJ_VERSION=$PYPROJ_VERSION --tag $DOCKER_TAG $DIRNAME
+docker build --pull --platform=linux/amd64 --build-arg PYPROJ_VERSION=$PYPROJ_VERSION --tag $DOCKER_TAG $DIRNAME
 
 # execute container
 docker run --user $(id -u):$(id -g) --rm -v "$DIRNAME/dist:/home/dist" $DOCKER_TAG
